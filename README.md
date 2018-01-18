@@ -11,4 +11,16 @@ call compile preprocessFileLineNumbers "scripts\clickActions\init.sqf";
 call compile preprocessFileLineNumbers "scripts\deployAnything\init.sqf";
 ```
 
-MORE TO COME.
+Temp install instructions:
+Download this file: https://github.com/oiad/modPack/blob/master/DayZ_Epoch_11.Chernarus/dayz_code/compile/ui_selectSlot.sqf
+Put it in your dayz_code\compile folder.
+In your dayz_code\init\compiles.sqf find this line:
+```sqf
+
+fnc_usec_selfactions = compile preprocessFileLineNumbers "dayz_code\compile\fn_selfActions.sqf";
+```
+Add this line after it:
+```sqf
+player_selectSlot = compile preprocessFileLineNumbers "dayz_code\compile\ui_selectSlot.sqf";
+```
+MORE TO COME
