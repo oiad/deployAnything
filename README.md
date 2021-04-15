@@ -94,19 +94,7 @@ https://github.com/AirwavesMan/epoch-right-click-actions
 	1 compile !="oopDone = true;\n_isAnimationCompleted = true;\n};\n{\nif (call compile (_x select 0)) exitWith {\n_exitWith = _x select 1;\n};\n} forE"
 	```
 
-6. In your config\<yourServerName>\Battleye\scripts.txt around line 22: <code>1 compile</code> add this to the end of it:
-
-	```sqf
-	!"call compile preprocessFileLineNumbers \"scripts\\deployAnything\\config.sqf"
-	```
-
-	So it will then look like this for example:
-
-	```sqf
-	1 compile <CUT> !"call compile preprocessFileLineNumbers \"scripts\\deployAnything\\config.sqf"
-	```
-	
-7. In your config\<yourServerName>\Battleye\scripts.txt around line 47: <code>5 hint</code> add this to the end of it:
+6. In your config\<yourServerName>\Battleye\scripts.txt around line 47: <code>5 hint</code> add this to the end of it:
 
 	```sqf
 	!="(_exitWith != \"nil\" && {_exitWith != \"admin\"}) exitWith {\ntaskHint [_exitWith, DZE_COLOR_DANGER, \"taskFailed\"];\n};\n\nDZE_DEPLOYIN"
@@ -118,7 +106,7 @@ https://github.com/AirwavesMan/epoch-right-click-actions
 	5 hint <CUT> !="(_exitWith != \"nil\" && {_exitWith != \"admin\"}) exitWith {\ntaskHint [_exitWith, DZE_COLOR_DANGER, \"taskFailed\"];\n};\n\nDZE_DEPLOYIN"
 	```	
 	
-8. In your config\<yourServerName>\Battleye\scripts.txt around line 11: <code>5 attachTo</code> add this to the end of it:
+7. In your config\<yourServerName>\Battleye\scripts.txt around line 11: <code>5 attachTo</code> add this to the end of it:
 
 	```sqf
 	!="OCKED\";\n_object setVariable[\"ObjectUID\",\"1\",true];\n\n_object attachTo [player,_offset];\n_object setDir _dir;\n_position = getPosAT"
@@ -130,7 +118,7 @@ https://github.com/AirwavesMan/epoch-right-click-actions
 	5 attachTo <CUT> !="OCKED\";\n_object setVariable[\"ObjectUID\",\"1\",true];\n\n_object attachTo [player,_offset];\n_object setDir _dir;\n_position = getPosAT"
 	```
 
-9. In your config\<yourServerName>\Battleye\scripts.txt around line 18: <code>5 clearMagazineCargo</code> add this to the end of it:
+8. In your config\<yourServerName>\Battleye\scripts.txt around line 18: <code>5 clearMagazineCargo</code> add this to the end of it:
 
 	```sqf
 	!="etClearCargo) then {\nclearWeaponCargoGlobal _tmpbuilt;\nclearMagazineCargoGlobal _tmpbuilt;\n};\nif (_index call getDeployableClear"
@@ -142,7 +130,7 @@ https://github.com/AirwavesMan/epoch-right-click-actions
 	5 clearMagazineCargo !="etClearCargo) then {\nclearWeaponCargoGlobal _tmpbuilt;\nclearMagazineCargoGlobal _tmpbuilt;\n};\nif (_index call getDeployableClear"
 	```
 
-10. In your config\<yourServerName>\Battleye\scripts.txt around line 19: <code>5 clearWeaponCargo</code> add this to the end of it:
+9. In your config\<yourServerName>\Battleye\scripts.txt around line 19: <code>5 clearWeaponCargo</code> add this to the end of it:
 
 	```sqf
 	!="_obj_Publish\";\n};\nif (_index call getClearCargo) then {\nclearWeaponCargoGlobal _tmpbuilt;\nclearMagazineCargoGlobal _tmpbuilt;\n};"
@@ -154,7 +142,7 @@ https://github.com/AirwavesMan/epoch-right-click-actions
 	5 clearWeaponCargo <CUT> !="_obj_Publish\";\n};\nif (_index call getClearCargo) then {\nclearWeaponCargoGlobal _tmpbuilt;\nclearMagazineCargoGlobal _tmpbuilt;\n};"
 	```
 	
-11. In your config\<yourServerName>\Battleye\scripts.txt around line 54: <code>1 nearestObject</code> add this to the end of it:
+10. In your config\<yourServerName>\Battleye\scripts.txt around line 54: <code>1 nearestObject</code> add this to the end of it:
 
 	```sqf
 	!="};\n};\ncase \"workshop\": {\n_distance = 3;\n_isNear = count (nearestObjects [player, [\"Wooden_shed_DZ\",\"WoodShack_DZ\",\"WorkBench_DZ\""
@@ -166,7 +154,7 @@ https://github.com/AirwavesMan/epoch-right-click-actions
 	1 nearestObject <CUT> !="};\n};\ncase \"workshop\": {\n_distance = 3;\n_isNear = count (nearestObjects [player, [\"Wooden_shed_DZ\",\"WoodShack_DZ\",\"WorkBench_DZ\""
 	```	
 	
-12. In your config\<yourServerName>\Battleye\scripts.txt around line 55: <code>1 nearObjects</code> add this to the end of it:
+11. In your config\<yourServerName>\Battleye\scripts.txt around line 55: <code>1 nearObjects</code> add this to the end of it:
 
 	```sqf
 	!="ance = 3;\n_isNear = {inflamed _x} count (getPosATL player nearObjects _distance);\nif (_isNear == 0) then {\n_abort = true;\n_reaso"
@@ -178,7 +166,7 @@ https://github.com/AirwavesMan/epoch-right-click-actions
 	1 nearObjects <CUT> !="ance = 3;\n_isNear = {inflamed _x} count (getPosATL player nearObjects _distance);\nif (_isNear == 0) then {\n_abort = true;\n_reaso"
 	```
 	
-13. In your config\<yourServerName>\Battleye\scripts.txt around line 80: <code>5 setVehicle</code> add this to the end of it:
+12. In your config\<yourServerName>\Battleye\scripts.txt around line 80: <code>5 setVehicle</code> add this to the end of it:
 
 	```sqf
 	!="cle [_classname, _location, [], 0, \"CAN_COLLIDE\"];\n_object setVehicleLock \"LOCKED\";\n_object setVariable[\"ObjectUID\",\"1\",true];\n\n"
@@ -190,7 +178,7 @@ https://github.com/AirwavesMan/epoch-right-click-actions
 	5 setVehicle !="cle [_classname, _location, [], 0, \"CAN_COLLIDE\"];\n_object setVehicleLock \"LOCKED\";\n_object setVariable[\"ObjectUID\",\"1\",true];\n\n"
 	```
 
-14. In your config\<yourServerName>\Battleye\scripts.txt around line 84: <code>1 systemChat</code> add this to the end of it:
+13. In your config\<yourServerName>\Battleye\scripts.txt around line 84: <code>1 systemChat</code> add this to the end of it:
 
 	```sqf
 	!=";\n\nif (_havePad) exitWith {\ndayz_actionInProgress = false;\nsystemChat \"You already have a heli pad!\";\n};\n\n_missing = \"\";\n_hasreq"
@@ -202,7 +190,7 @@ https://github.com/AirwavesMan/epoch-right-click-actions
 	1 systemChat <CUT> !=";\n\nif (_havePad) exitWith {\ndayz_actionInProgress = false;\nsystemChat \"You already have a heli pad!\";\n};\n\n_missing = \"\";\n_hasreq"
 	```
 	
-15. In your config\<yourServerName>\Battleye\scripts.txt around line 4: <code>5 addMagazine</code> add this to the end of it:
+14. In your config\<yourServerName>\Battleye\scripts.txt around line 4: <code>5 addMagazine</code> add this to the end of it:
 
 	```sqf
 	!="sClass(configFile >> \"CfgMagazines\" >> _x)) then {\nplayer addMagazine _x;\n};\n} forEach (_deployable call getDeployableParts);\n\ni"
@@ -214,7 +202,7 @@ https://github.com/AirwavesMan/epoch-right-click-actions
 	5 addMagazine <CUT> !="sClass(configFile >> \"CfgMagazines\" >> _x)) then {\nplayer addMagazine _x;\n};\n} forEach (_deployable call getDeployableParts);\n\ni"
 	```	
 	
-16. In your config\<yourServerName>\Battleye\scripts.txt around line 5: <code>5 addWeapon</code> add this to the end of it:
+15. In your config\<yourServerName>\Battleye\scripts.txt around line 5: <code>5 addWeapon</code> add this to the end of it:
 
 	```sqf
 	!=" (isClass(configFile >> \"CfgWeapons\" >> _x)) then {\nplayer addWeapon _x;\n};\nif (isClass(configFile >> \"CfgMagazines\" >> _x)) the"
@@ -226,7 +214,7 @@ https://github.com/AirwavesMan/epoch-right-click-actions
 	5 addWeapon <CUT> !=" (isClass(configFile >> \"CfgWeapons\" >> _x)) then {\nplayer addWeapon _x;\n};\nif (isClass(configFile >> \"CfgMagazines\" >> _x)) the"
 	```
 	
-17. In your config\<yourServerName>\Battleye\scripts.txt around line 47: <code>5 hint</code> add this to the end of it:
+16. In your config\<yourServerName>\Battleye\scripts.txt around line 47: <code>5 hint</code> add this to the end of it:
 
 	```sqf
 	!="(_exitWith != \"nil\" && {_exitWith != \"admin\"}) exitWith {\ntaskHint [_exitWith, DZE_COLOR_DANGER, \"taskFailed\"];\n};\n\n_cursorTarge"
