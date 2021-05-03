@@ -1,4 +1,4 @@
-# deployAnything for Epoch 1.0.7
+# deployAnything for Epoch 1.0.7+
 
 # REPORTING ERRORS/PROBLEMS
 
@@ -22,13 +22,19 @@ https://github.com/AirwavesMan/epoch-right-click-actions
 
 # Mission folder install
 
-	Find this line in your <code>init.sqf</code>:
+	Find this line ```sqf initialized = true; ``` in your <code>init.sqf</code>:
 
-	Place this line at the very bottom of the init.sqf:
+	Place this line directly above it in the init.sqf:
 
 	```sqf
 	call compile preprocessFileLineNumbers "scripts\deployAnything\init.sqf";
 	```
+	so it looks lie that:
+	
+	```sqf
+	call compile preprocessFileLineNumbers "scripts\deployAnything\init.sqf";
+	initialized = true;
+	```	
 	
 # BattlEye filter install:
 
