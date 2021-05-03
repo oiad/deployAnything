@@ -26,7 +26,7 @@
 
 DZE_DEPLOYABLES_CONFIG = [
 	// deploy a non-permanent bike from a toolbox right in front of the player that can be re-packed by the owner as long as it's under 10% damage
-	["ItemToolbox",[0,6,1],5,0.1,false,false,false,false,false,true,true,["MMT_Civ"],[],["ItemToolbox"],"true"],
+	["ItemToolbox",[0,6,1],5,0.1,false,false,false,false,false,true,true,["MMT_Civ"],[],["ItemToolbox"],"true"]
 	// deploy fortifications from etool 3 meters in front of player that are permanent until server restart
 	//["ItemEtool",[0,3,0],5,-1,false,true,false,true,false,false,["Land_fort_rampart","Fort_StoneWall_EP1","Land_fort_bagfence_round"],[],["ItemEtool"],"true"],
 	// deploy a permanent helicopter from ruby 5 meters in front of player that can be re-packed by anyone as long as it's under 10% damage
