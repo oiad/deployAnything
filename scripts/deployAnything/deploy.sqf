@@ -15,11 +15,11 @@ _deployableName = _this call getDeployableDisplay;
 	if (_x select 0) exitWith {_exitWith = (_x select 1);};
 } forEach [
 	[(dayz_playerUID in DZE_DEPLOYABLE_ADMINS),"admin"],
-	[!([player,_this] call getHasDeployableParts),format["You need %1 to build %2",str (_this call getDeployableParts),_deployableName]],
-	[!(call fnc_can_do),format["You can't build a %1 right now.",_deployableName]],
-	[(player getVariable["inCombat",false]), format["Can't build a %1 while in combat!",(_this call getDeployableDisplay)]],
-	[DZE_DEPLOYING,"You are already building something!"],
-	[DZE_PACKING,"You are already packing something!"]
+	[!([player,_this] call getHasDeployableParts),format[localize "STR_CL_DA_FAIL_NEED", str (_this call getDeployableParts), _deployableName]],
+	[!(call fnc_can_do),format[localize "STR_CL_DA_PACK_FAIL", _deployableName]],
+	[(player getVariable["inCombat",false]), format[localize "STR_CL_DA_PACK_COMBAT", (_this call getDeployableDisplay)]],
+	[DZE_DEPLOYING, (localize "STR_CL_DA_FAIL_BUILDING")],
+	[DZE_PACKING, (localize "STR_CL_DA_FAIL_PACKING")]
 ];
 
 if (_exitWith != "nil" && {_exitWith != "admin"}) exitWith {
@@ -33,14 +33,14 @@ waitUntil {scriptDone _handle;};
 
 DZE_DEPLOYING = false;
 if (!DZE_DEPLOYING_SUCCESSFUL) then {
-	taskHint ["Deploying Failed!", DZE_COLOR_DANGER, "taskFailed"];
+	taskHint [localize "STR_CL_DA_FAIL_DEPLOYING", DZE_COLOR_DANGER, "taskFailed"];
 } else {
-	taskHint [format["You've built a %1!",_deployableName], DZE_COLOR_PRIMARY, "taskDone"];
+	taskHint [format[localize "STR_CL_DA_DEPLOY_OK", _deployableName], DZE_COLOR_PRIMARY, "taskDone"];
 
 	uiSleep 10;
-	if (!(_this call getPermanent)) then { 
-		"Warning: Deployed vehicles DO NOT SAVE after server restart!" call dayz_rollingMessages;
+	if (!(_this call getPermanent)) then {
+		(localize "STR_CL_DA_DEPLOY_PERM_NO") call dayz_rollingMessages;
 	} else {
-		"This vehicle is permanent and will persist through server restarts!" call dayz_rollingMessages;
+		(localize "STR_CL_DA_DEPLOY_PERM_OK") call dayz_rollingMessages;
 	};
 };

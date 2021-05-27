@@ -318,7 +318,7 @@ if (_hasrequireditem) then {
 	if (_classname isKindOf "MotorCycle") then {
 		if (count (nearestObjects [_position, ["Building","DZE_Housebase"], 5]) > 0) then {
 			_cancel = true; 
-			_reason = format ["%1 can not be built near a wall/door",_text];
+			_reason = format [localize "STR_CL_DA_DEPLOY_BULDABLES",_text];
 		};
 	};
 
