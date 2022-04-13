@@ -1,5 +1,8 @@
-
+:::
+:::
 [Download for Epoch 1.0.7](https://github.com/oiad/deployAnything/archive/refs/tags/Epoch_1.0.7.zip)
+:::
+:::
 
 # deployAnything for Epoch 1.0.7.1+
 
@@ -18,10 +21,6 @@
 * [Old Releases](https://github.com/oiad/deployAnything#old-releases)
 
 # Install:
-
-* If you have not installed the Click Actions visit this  
-https://github.com/AirwavesMan/epoch-right-click-actions
-
 
 # Mission folder install
 
@@ -253,6 +252,9 @@ https://github.com/AirwavesMan/epoch-right-click-actions
 	
 	
 # Old Releases:	
+
+**** *Epoch 1.0.7* ****
+**[>> Download <<](https://github.com/oiad/deployAnything/archive/refs/tags/Epoch_1.0.7.zip)**
 
 **** *Epoch 1.0.6.2* ****
 **[>> Download <<](https://github.com/oiad/deployAnything/archive/refs/tags/Epoch_1.0.6.2.zip)**
