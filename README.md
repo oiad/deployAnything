@@ -1,4 +1,7 @@
-# deployAnything for Epoch 1.0.7+
+
+[Download for Epoch 1.0.7](https://github.com/oiad/deployAnything/archive/refs/tags/Epoch_1.0.7.zip)
+
+# deployAnything for Epoch 1.0.7.1+
 
 # REPORTING ERRORS/PROBLEMS
 
