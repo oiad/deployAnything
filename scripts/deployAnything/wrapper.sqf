@@ -76,7 +76,7 @@ getDeployableCondition = {
 
 /* should players be allowed to pack deployables at all? */
 getDeployablePackAny = {
-    ((_this call getDamageLimit) >= 0) || (!(isNull player) && {dayz_playerUID in DZE_DEPLOYABLE_ADMINS});   
+    ((_this call getDamageLimit) >= 0);   
 };
 
 /* this gets what type of item the kit is*/

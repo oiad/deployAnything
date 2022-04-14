@@ -2,7 +2,7 @@
 	DayZ Base Building
 	Made for DayZ Epoch please ask permission to use/edit/distrubute email vbawol@veteranbastards.com.
 */
-private ["_vector","_IsNearPlot","_abort","_animState","_buildables","_buildcheck","_canBuild","_cancel","_classname","_classnametmp","_counter","_dir","_distance","_exitWith","_finished","_friendlies","_hasbuilditem","_hasrequireditem","_hastoolweapon","_index","_inVehicle","_isAllowedUnderGround","_isMedic","_isNear","_isOk","_isfriendly","_isowner","_limit","_location","_location1","_location2","_message","_missing","_nearestPole","_needNear","_needText","_objHDiff","_object","_offset","_onLadder","_ownerID","_plotcheck","_position","_proceed","_reason","_requireplot","_rotate","_started","_text","_tmpbuilt","_vehicle","_zheightchanged","_zheightdirection","_havePad","_heliPad","_charID"];
+private ["_vector","_IsNearPlot","_abort","_animState","_buildables","_buildcheck","_canBuild","_cancel","_classname","_classnametmp","_counter","_dir","_distance","_exitWith","_finished","_friendlies","_hasbuilditem","_hasrequireditem","_hastoolweapon","_index","_inVehicle","_isAllowedUnderGround","_isMedic","_isNear","_isOk","_isfriendly","_isowner","_limit","_location","_location1","_location2","_message","_missing","_nearestPole","_needNear","_needText","_objHDiff","_object","_offset","_onLadder","_ownerID","_plotcheck","_position","_proceed","_reason","_requireplot","_rotate","_started","_text","_tmpbuilt","_vehicle","_zheightchanged","_zheightdirection"];
 
 if (dayz_actionInProgress) exitWith {localize "str_epoch_player_40" call dayz_rollingMessages;};
 dayz_actionInProgress = true;
@@ -55,7 +55,7 @@ _needNear = _index call getDeployableNeedNearBy;
 		};
 		case "workshop": {
 			_distance = 3;
-			_isNear = count (nearestObjects [player, ["Wooden_shed_DZ","WoodShack_DZ","WorkBench_DZ"], _distance]);
+			_isNear = count (nearestObjects [player, DZE_Workshops, _distance]);
 			if (_isNear == 0) then {
 				_abort = true;
 				_reason = localize "STR_BLD_name_ItemWorkshop";
@@ -114,47 +114,18 @@ if (_IsNearPlot == 0) then {
 	if (_requireplot == 0) then {
 		_canBuild = true;
 	} else {
-		_ownerID = _nearestPole getVariable["CharacterID","0"];
-		if (dayz_characterID == _ownerID) then {
+		_buildcheck = [player, _nearestPole] call FNC_check_access;
+		_isowner = _buildcheck select 0;
+		_isfriendly = ((_buildcheck select 1) or (_buildcheck select 3));
+		if (_isowner || _isfriendly) then {
 			_canBuild = true;
 		} else {
-			if (DZE_permanentPlot) then {
-				_buildcheck = [player, _nearestPole] call FNC_check_access;
-				_isowner = _buildcheck select 0;
-				_isfriendly = ((_buildcheck select 1) or (_buildcheck select 3));
-				if (_isowner || _isfriendly) then {
-					_canBuild = true;
-				} else {
-					_exitWith = localize "STR_EPOCH_PLAYER_134";
-				};
-			} else {
-				_friendlies	= player getVariable ["friendlyTo",[]];
-				if (_ownerID in _friendlies) then {
-					_canBuild = true;
-				} else {
-					_exitWith = localize "STR_EPOCH_PLAYER_134";
-				};
-			};
+			_exitWith = localize "STR_EPOCH_PLAYER_134";
 		};
 	};
 };
 
 if (!_canBuild) exitWith {dayz_actionInProgress = false; format[_exitWith,_needText,_distance] call dayz_rollingMessages;};
-
-_havePad = false;
-if !(isNil "vg_list") then {
-	if (_className in vg_heliPads) then {
-		_heliPad = nearestObjects [player,vg_heliPads,vg_distance];
-		if (count _heliPad > 0) then {
-			_havePad = true;
-		};
-	};
-};
-
-if (_havePad) exitWith {
-	dayz_actionInProgress = false;
-	systemChat "You already have a heli pad!";
-};
 
 _missing = "";
 _hasrequireditem = true;
@@ -177,7 +148,6 @@ if (_hasrequireditem) then {
 
 	_object = createVehicle [_classname, _location, [], 0, "CAN_COLLIDE"];
 	_object setVehicleLock "LOCKED";
-	_object setVariable["ObjectUID","1",true];
 
 	_object attachTo [player,_offset];
 	_object setDir _dir;
@@ -331,7 +301,6 @@ if (_hasrequireditem) then {
 		if (!(_index call getDeployableSimulation)) then {
 			_tmpbuilt enableSimulation false;
 		};
-		_tmpbuilt setVariable ["ObjectUID", "1", true];
 
 		if (_index call getPermanent) then {
 			_tmpbuilt setVectorDirAndUp _vector;
@@ -362,41 +331,12 @@ if (_hasrequireditem) then {
 		_counter = 0;
 
 		while {_isOk} do {
-			["Working",0,[100,15,10,0]] call dayz_NutritionSystem;
-			if !((getPlayerUID player) in DZE_DEPLOYABLE_ADMINS) then { 
-				player playActionNow "Medic";
-				[player,"repair",0,false,20] call dayz_zombieSpeak;
-				[player,20,true,(getPosATL player)] spawn player_alertZombies;
+			format[localize "str_epoch_player_139", _text, (_counter + 1), _limit] call dayz_rollingMessages; // Constructing %1 stage %2 of %3, move to cancel.
 
-				r_interrupt = false;
-				r_doLoop = true;
-				_started = false;
-				_finished = false;
+			[player, (getPosATL player), 40, "repair"] spawn fnc_alertZombies;
 
-				while {r_doLoop} do {
-					_animState = animationState player;
-					_isMedic = ["medic",_animState] call fnc_inString;
-					if (_isMedic) then {
-						_started = true;
-					};
-					if (_started && !_isMedic) then {
-						r_doLoop = false;
-						_finished = true;
-					};
-					if (r_interrupt) then {
-						r_doLoop = false;
-					};
-					if (DZE_cancelBuilding) exitWith {
-						r_doLoop = false;
-					};
-					uiSleep 0.1;
-				};
-				r_doLoop = false;
+			_finished = ["Medic", 1, {player getVariable["combattimeout", 0] >= diag_tickTime or DZE_cancelBuilding}] call fn_loopAction;
 
-			} else {
-				_finished = true;
-			};
-			
 			if (!_finished) exitWith {
 				_isOk = false;
 				_proceed = false;
@@ -405,7 +345,7 @@ if (_hasrequireditem) then {
 			if (_finished) then {
 				_counter = _counter + 1;
 			};
-			format[localize "str_epoch_player_139",_text, _counter,_limit] call dayz_rollingMessages;
+
 			if (_counter == _limit) exitWith {
 				_isOk = false;
 				_proceed = true;
@@ -414,24 +354,26 @@ if (_hasrequireditem) then {
 
 		if (_proceed) then {
 			if ([player,_index] call getHasDeployableParts) then {
+				["Working", 0, [20,10,5,0]] call dayz_NutritionSystem;
 				[player,_index] call removeDeployableParts;
 				[format[localize "str_build_01",_text],1] call dayz_rollingMessages;
-				_tmpbuilt setVariable ["OEMPos",_location,true];
+				
 				if (_index call getPermanent) then {
-					_charID = dayz_characterID;
-					_tmpbuilt setVariable ["CharacterID",_charID,true];
-					PVDZ_obj_Publish = [_charID,_tmpbuilt,[_dir,_position,dayz_playerUID,_vector],[],player,dayz_authKey];
+					_tmpbuilt setVariable ["ownerPUID", dayz_playerUID, true];
+					PVDZ_obj_Publish = ["0",_tmpbuilt,[_dir,_position,dayz_playerUID,_vector],[],player,dayz_authKey];
 					publicVariableServer "PVDZ_obj_Publish";
+				} else {
+					_tmpbuilt call fnc_set_temp_deployable_id;
 				};
+				
 				if (_index call getClearCargo) then {
 					clearWeaponCargoGlobal _tmpbuilt;
 					clearMagazineCargoGlobal _tmpbuilt;
 				};
 				if (_index call getDeployableClearAmmo) then {
 					_tmpbuilt setVehicleAmmo 0;
-				};
+				};				
 				
-				_tmpbuilt call fnc_set_temp_deployable_id;
 				player reveal _tmpbuilt;
 				_tmpbuilt call fnc_veh_ResetEH;
 

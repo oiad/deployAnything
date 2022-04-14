@@ -1,3 +1,6 @@
+DZE_buildMaxMoveDistance = 10; // Max distance player can walk from start position when building. Anything >= the differnce between DZE_PlotPole values is not recommended (allows walking into other plots).
+DZE_buildMaxHeightDistance = 10; // Max distance player can raise or lower object from start position when building.
+
 //  **FORMAT** -- (note no comma after last array entry)
 //
 //  DZE_DEPLOYABLES_CONFIG = [
@@ -19,20 +22,15 @@
 // _plot         | require a plot from the owner to build the deployable?              | bool   | false
 // _simulation   | enable simulation (movement/damage) for the object? (true for cars) | bool   | true
 // _road         | enable road building for this object?                               | bool   | true
-// _deployables  | array of class names that can be deployed with this method          | array  | ["MMT_Civ"]
+// _deployables  | array of class names that can be deployed with this method          | array  | ["MMT_Civ_DZE"]
 // _near         | array of items required nearby to build (workshop/fire/fueltank)    | array  | []
 // _parts        | array of parts required to build (will be taken from player)        | array  | ["ItemToolbox"]
-// _condition    | string of code to evaluate to determine whether action is shown     | string | "!(isNull player) && {(getPlayerUID player) in DZE_DEPLOYABLE_ADMINS}"
+// _condition    | string of code to evaluate to determine whether action is shown     | string | "!(isNull player)"
 
 DZE_DEPLOYABLES_CONFIG = [
 	// deploy a non-permanent bike from a toolbox right in front of the player that can be re-packed by the owner as long as it's under 10% damage
-	["ItemToolbox",[0,6,1],5,0.1,false,false,false,false,false,true,true,["MMT_Civ"],[],["ItemToolbox"],"true"]
-	// deploy fortifications from etool 3 meters in front of player that are permanent until server restart
-	//["ItemEtool",[0,3,0],5,-1,false,true,false,true,false,false,["Land_fort_rampart","Fort_StoneWall_EP1","Land_fort_bagfence_round"],[],["ItemEtool"],"true"],
-	// deploy a permanent helicopter from ruby 5 meters in front of player that can be re-packed by anyone as long as it's under 10% damage
-	//["ItemEtool",[0,8,0],5,-1,false,true,true,true,false,false,["Land_fortified_nest_big"],[],["ItemSandbagExLarge5x","ItemSandbagExLarge5x","ItemSandbagExLarge5x"],"true"],
-	//["PartWoodPile",[0,2,0],5,1,true,true,true,true,false,false,["Pile_of_wood"],[],["PartWoodPile","PartWoodPile","PartWoodPile","PartWoodPile","PartWoodPile"],"true"],
-	//["ItemSapphire",[0,2,0],5,1,true,true,true,true,false,false,["DSHKM_CDF","M2StaticMG","SearchLight_CDF"],[],["ItemSapphire"],"true"]
+	["ItemToolbox",[0,6,1],5,0.1,false,false,false,false,false,true,true,["MMT_Civ_DZE"],[],["ItemToolbox"],"true"]
+	//["ItemEtool",[0,8,0],10,0,false,true,true,true,true,false,false,["Land_fortified_nest_big"],[],["ItemSandbagExLarge5x","ItemSandbagExLarge5x","ItemSandbagExLarge5x"],"true"]
 ];
 
 // **DZE_DEPLOYABLE_NAME_MAP format
@@ -51,5 +49,3 @@ DZE_DEPLOYABLES_CONFIG = [
 DZE_DEPLOYABLE_NAME_MAP = [
 	["Notebook","Macbook Pro"]
 ];
-
-DZE_DEPLOYABLE_ADMINS = [];

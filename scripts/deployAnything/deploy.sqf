@@ -14,7 +14,6 @@ _deployableName = _this call getDeployableDisplay;
 {
 	if (_x select 0) exitWith {_exitWith = (_x select 1);};
 } forEach [
-	[(dayz_playerUID in DZE_DEPLOYABLE_ADMINS),"admin"],
 	[!([player,_this] call getHasDeployableParts),format[localize "STR_CL_DA_FAIL_NEED", str (_this call getDeployableParts), _deployableName]],
 	[!(call fnc_can_do),format[localize "STR_CL_DA_PACK_FAIL", _deployableName]],
 	[(player getVariable["inCombat",false]), format[localize "STR_CL_DA_PACK_COMBAT", (_this call getDeployableDisplay)]],

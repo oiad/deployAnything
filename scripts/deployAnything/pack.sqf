@@ -10,7 +10,6 @@ _deployableName = _deployable call getDeployableDisplay;
 {
 	if (_x select 0) exitWith {_exitWith = (_x select 1);};
 } forEach [
-	[(dayz_playerUID in DZE_DEPLOYABLE_ADMINS),"admin"],
 	[!(call fnc_can_do),format[localize "STR_CL_DA_PACK_FAIL", _deployableName]],
 	[(player getVariable["inCombat",false]),format[localize "STR_CL_DA_PACK_COMBAT", _deployableName]],
 	[(damage cursorTarget > (_deployable call getDamageLimit)),format[localize "STR_CL_DA_PACK_DAMAGE", _deployableName,(_deployable call getDamageLimit) * 100]],      
@@ -27,7 +26,6 @@ _cursorTarget setVariable["lastPackTime",diag_tickTime,true];
 DZE_PACKING = true;
 
 _exitWith = [
-	["dayz_playerUID in DZE_DEPLOYABLE_ADMINS","admin"],
 	["r_interrupt",format[localize "STR_CL_DA_PACK_INTERRUPTED",_deployableName]],
 	["(player getVariable['inCombat',false])",format[localize "STR_CL_DA_PACK_COMBAT",_deployableName]]
 ] call fnc_bike_crafting_animation;
@@ -47,7 +45,7 @@ if (_exitWith != "nil" && {_exitWith != "admin"}) exitWith {
 } forEach (_deployable call getDeployableParts);
 
 if (_deployable call getPermanent) then {
-	PVDZ_obj_Destroy = [_cursorTarget getVariable["ObjectID","0"],_cursorTarget getVariable["ObjectUID","0"],player,_cursorTarget,dayz_authKey];
+	PVDZ_obj_Destroy = [netID player,netID _cursorTarget,dayz_authKey];
 	publicVariableServer "PVDZ_obj_Destroy";
 } else {
 	deleteVehicle _cursorTarget;

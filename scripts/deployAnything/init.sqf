@@ -2,9 +2,9 @@ call compile preprocessFileLineNumbers "scripts\deployAnything\config.sqf";
 call compile preprocessFileLineNumbers "scripts\deployAnything\wrapper.sqf";
 call compile preprocessFileLineNumbers "scripts\deployAnything\functions.sqf";
 
-_DZE_DEPLOYABLE_VERSION = "3.0.1";
+local _DZE_DEPLOYABLE_VERSION = "4.0.0";
 
-diag_log format["Deploy Anything: loading version %1 ...",_DZE_DEPLOYABLE_VERSION];
+diag_log format["Deploy Anything: loading version %1 for Epoch 1.0.7.1",_DZE_DEPLOYABLE_VERSION];
 
 player_deploy = compile preprocessFileLineNumbers "scripts\deployAnything\player_deploy.sqf";
 
@@ -60,41 +60,37 @@ if (isServer) exitWith {
 	diag_log "Deploy Anything: waiting for login...";
 	waitUntil{!isNil "Dayz_loginCompleted"};
 
-	[] spawn {
-		waitUntil {sm_done;};
-		{
-			if (parseNumber(_x getVariable["CharacterID","0"]) > 500000) then {
-				[_x,false] call local_lockUnlock;
-			};
-		} forEach vehicles;
-	};
-
 	while {true} do {
-		if (!isNull player) then {
+		if (!isNull player) then {				
 			{
-				private ["_cursorTarget"];
-				_cursorTarget = cursorTarget;
-				if (!(isNull _cursorTarget)
-						&& {_forEachIndex call getDeployablePackAny}
-						&& {typeOf _cursorTarget == (_forEachIndex call getDeployableClass)}
-						&& {call fnc_can_do}
-						&& {(((_cursorTarget call fnc_get_temp_deployable_id) != "nil") || ((_cursorTarget call fnc_get_perm_deployable_id) != "nil"))}
-						&& {(
-							((_cursorTarget call fnc_get_perm_deployable_id) == (call fnc_perm_deployable_id))
-							|| ((_cursorTarget call fnc_get_temp_deployable_id) == (call fnc_temp_deployable_id))
-							|| (_forEachIndex call getDeployablePackOthers)
-							|| ((getPlayerUID player) in DZE_DEPLOYABLE_ADMINS)
-						)}
-						&& {(player distance _cursorTarget) < (_forEachIndex call getDeployablePackDistance)}) then {
-					if ((_forEachIndex call getActionId) < 0) then {
-						[_forEachIndex,player addaction["<t color='#33b5e5'>" + format[localize "STR_CL_DA_PACK",(_forEachIndex call getDeployableDisplay)] + "</t>","scripts\deployAnything\pack.sqf",[_forEachIndex,_cursorTarget],0,false,true]] call setActionId;
+				local _cursorTarget = cursorTarget;
+	
+				if (!isNull _cursorTarget) then {
+					local _hasAccess = [];
+					local _isPermanent = _forEachIndex call getPermanent;
+					
+					if (_isPermanent) then {
+						_hasAccess = [player, _cursorTarget] call FNC_check_access;	
+					};					
+				
+					if ((_forEachIndex call getDeployablePackAny) && 
+						{typeOf _cursorTarget == (_forEachIndex call getDeployableClass)} && 
+						{call fnc_can_do} &&
+						{(player distance _cursorTarget) < (_forEachIndex call getDeployablePackDistance)} &&						
+						{_forEachIndex call getDeployablePackOthers ||
+						(!_isPermanent && {(_cursorTarget call fnc_get_temp_deployable_id) == call fnc_temp_deployable_id}) ||				
+						(_isPermanent && {(_hasAccess select 0) || (_hasAccess select 2) || (_hasAccess select 3)})}) then {
+						
+						if ((_forEachIndex call getActionId) < 0) then {
+							[_forEachIndex,player addaction["<t color='#33b5e5'>" + format[localize "STR_CL_DA_PACK",(_forEachIndex call getDeployableDisplay)] + "</t>","scripts\deployAnything\pack.sqf",[_forEachIndex,_cursorTarget],0,false,true]] call setActionId;
+						};
+					} else {
+						player removeAction (_forEachIndex call getActionId);
+						[_forEachIndex,-1] call setActionId;
 					};
-				} else {
-					player removeAction (_forEachIndex call getActionId);
-					[_forEachIndex,-1] call setActionId;
 				};
 			} forEach DZE_DEPLOYABLES;
 		};
-		uiSleep 2.5;
+		uiSleep 1;
 	};
 };
