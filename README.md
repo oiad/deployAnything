@@ -237,16 +237,16 @@
 1. In your config\<yourServerName>\Battleye\createvehicle.txt around line 2 find: <code>5 !(^DZ_|^z_|^pz_|^WeaponHolder|Box|dog|PZombie_VB|^Smoke|^Chem|^._40mm|_DZ$|^Trap)</code> add this to the end of the line:
 
 	```sqf
-	!=MMT_Civ
+	!=Example_Building
 	```
 
 	So it will then look like this for example:
 
 	```sqf
-	5 !(^DZ_|^z_|^pz_|^WeaponHolder|Box|dog|PZombie_VB|^Smoke|^Chem|^._40mm|_DZ$|^Trap) <CUT> !=MMT_Civ	
+	5 !(^DZ_|^z_|^pz_|^WeaponHolder|Box|dog|PZombie_VB|^Smoke|^Chem|^._40mm|_DZ$|^Trap) <CUT> !=Example_Building
 	```
 	
-	You have to add every vehicle or buildable you want to build with Deploy Anything.
+	You have to add every vehicle or buildable you want to build with Deploy Anything. Keep in mind Example_Building is only an example, you have to take the acutal classname of the building.
 	
 	
 # Old Releases:	

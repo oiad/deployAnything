@@ -16,7 +16,7 @@ _deployableName = _this call getDeployableDisplay;
 } forEach [
 	[!([player,_this] call getHasDeployableParts),format[localize "STR_CL_DA_FAIL_NEED", str (_this call getDeployableParts), _deployableName]],
 	[!(call fnc_can_do),format[localize "STR_CL_DA_PACK_FAIL", _deployableName]],
-	[(player getVariable["inCombat",false]), format[localize "STR_CL_DA_PACK_COMBAT", (_this call getDeployableDisplay)]],
+	[(player getVariable["inCombat",false]), format[localize "STR_CL_DA_DEPLOY_COMBAT", (_this call getDeployableDisplay)]],
 	[DZE_DEPLOYING, (localize "STR_CL_DA_FAIL_BUILDING")],
 	[DZE_PACKING, (localize "STR_CL_DA_FAIL_PACKING")]
 ];
