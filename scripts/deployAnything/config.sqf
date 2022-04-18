@@ -27,6 +27,10 @@ DZE_buildMaxHeightDistance = 10; // Max distance player can raise or lower objec
 // _parts        | array of parts required to build (will be taken from player)        | array  | ["ItemToolbox"]
 // _condition    | string of code to evaluate to determine whether action is shown     | string | "!(isNull player)"
 
+//	Do not use static weapons with Deploy Anything. Epoch has static weapons included. Those can be used without an extra script.
+//	Also many buildings got added as epoch version already. Before you add a new building here please check out at epoch buildables.
+//	Use this documentation of available epoch magazines from line 1437 until the end: https://github.com/EpochModTeam/DayZ-Epoch/blob/master/Documents/Epoch%201.0.7.1%20Classnames/CfgMagazines%20all.txt#L1437
+
 DZE_DEPLOYABLES_CONFIG = [
 	// deploy a non-permanent bike from a toolbox right in front of the player that can be re-packed by the owner as long as it's under 10% damage
 	["ItemToolbox",[0,6,1],5,0.1,false,false,false,false,false,true,true,["MMT_Civ_DZE"],[],["ItemToolbox"],"true"]

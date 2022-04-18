@@ -4,7 +4,7 @@ call compile preprocessFileLineNumbers "scripts\deployAnything\functions.sqf";
 
 local _DZE_DEPLOYABLE_VERSION = "4.0.0";
 
-diag_log format["Deploy Anything: loading version %1 for Epoch 1.0.7.1",_DZE_DEPLOYABLE_VERSION];
+diag_log format["Deploy Anything: Loading version %1 for Epoch 1.0.7.1",_DZE_DEPLOYABLE_VERSION];
 
 player_deploy = compile preprocessFileLineNumbers "scripts\deployAnything\player_deploy.sqf";
 
@@ -32,7 +32,7 @@ DZE_DEPLOYABLES = [];
 } forEach DZE_DEPLOYABLES_CONFIG;
 
 if (isServer) exitWith {
-	diag_log "Deploy Anything: adding deployables to safe vehicle list...";
+	diag_log "Deploy Anything: Adding deployables to safe vehicle list...";
 	{
 		local _classname = _forEachIndex call getDeployableClass;
 		DZE_safeVehicle = DZE_safeVehicle + [_classname];
@@ -57,8 +57,11 @@ if (isServer) exitWith {
 	DZE_COLOR_SUCCESS = [(153/255),(204/255),0,1];
 	DZE_COLOR_DANGER = [1,(68/255),(68/255),1];
 
-	diag_log "Deploy Anything: waiting for login...";
+	diag_log "Deploy Anything: Waiting for player to login...";
+	
 	waitUntil{!isNil "Dayz_loginCompleted"};
+	
+	diag_log "Deploy Anything: Player logged in and is playing. Starting pack loop...";
 
 	while {true} do {
 		if (!isNull player) then {				
