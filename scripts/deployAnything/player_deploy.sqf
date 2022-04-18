@@ -2,7 +2,7 @@
 	DayZ Base Building
 	Made for DayZ Epoch please ask permission to use/edit/distrubute email vbawol@veteranbastards.com.
 */
-private ["_vector","_IsNearPlot","_abort","_animState","_buildables","_buildcheck","_canBuild","_cancel","_classname","_classnametmp","_counter","_dir","_distance","_exitWith","_finished","_friendlies","_hasbuilditem","_hasrequireditem","_hastoolweapon","_index","_inVehicle","_isAllowedUnderGround","_isMedic","_isNear","_isOk","_isfriendly","_isowner","_limit","_location","_location1","_location2","_message","_missing","_nearestPole","_needNear","_needText","_objHDiff","_object","_offset","_onLadder","_ownerID","_plotcheck","_position","_proceed","_reason","_requireplot","_rotate","_started","_text","_tmpbuilt","_vehicle","_zheightchanged","_zheightdirection"];
+private ["_isVehicle","_vector","_IsNearPlot","_abort","_animState","_buildables","_buildcheck","_canBuild","_cancel","_classname","_classnametmp","_counter","_dir","_distance","_exitWith","_finished","_friendlies","_hasbuilditem","_hasrequireditem","_hastoolweapon","_index","_inVehicle","_isAllowedUnderGround","_isMedic","_isNear","_isOk","_isfriendly","_isowner","_limit","_location","_location1","_location2","_message","_missing","_nearestPole","_needNear","_needText","_objHDiff","_object","_offset","_onLadder","_ownerID","_plotcheck","_position","_proceed","_reason","_requireplot","_rotate","_started","_text","_tmpbuilt","_vehicle","_zheightchanged","_zheightdirection"];
 
 if (dayz_actionInProgress) exitWith {localize "str_epoch_player_40" call dayz_rollingMessages;};
 dayz_actionInProgress = true;
@@ -357,9 +357,15 @@ if (_hasrequireditem) then {
 				["Working", 0, [20,10,5,0]] call dayz_NutritionSystem;
 				[player,_index] call removeDeployableParts;
 				[format[localize "str_build_01",_text],1] call dayz_rollingMessages;
+				_isVehicle = _tmpbuilt isKindOf "AllVehicles";
 				
-				if (_index call getPermanent) then {
+				if (!_isVehicle && _index call getPermanent) then {
 					_tmpbuilt setVariable ["ownerPUID", dayz_playerUID, true];
+					
+					if (DZE_GodModeBase && {!(_classname in DZE_GodModeBaseExclude)}) then {
+						_tmpbuilt addEventHandler ["HandleDamage", {0}];
+					};
+					
 					PVDZ_obj_Publish = ["0",_tmpbuilt,[_dir,_position,dayz_playerUID,_vector],[],player,dayz_authKey];
 					publicVariableServer "PVDZ_obj_Publish";
 				} else {
@@ -369,19 +375,24 @@ if (_hasrequireditem) then {
 				if (_index call getClearCargo) then {
 					clearWeaponCargoGlobal _tmpbuilt;
 					clearMagazineCargoGlobal _tmpbuilt;
-				};
-				if (_index call getDeployableClearAmmo) then {
-					_tmpbuilt setVehicleAmmo 0;
-				};				
+				};					
+				
+				if (_isVehicle) then {
+					if (_index call getDeployableClearAmmo) then {
+						_tmpbuilt setVehicleAmmo 0;
+					};					
+				
+					_tmpbuilt call fnc_veh_ResetEH;
+
+					// for non JIP users this should make sure everyone has eventhandlers for vehicles.
+					PVDZE_veh_Init = _tmpbuilt;
+					publicVariable "PVDZE_veh_Init";
+
+					_tmpbuilt setVehicleLock "UNLOCKED";
+				};	
 				
 				player reveal _tmpbuilt;
-				_tmpbuilt call fnc_veh_ResetEH;
-
-				// for non JIP users this should make sure everyone has eventhandlers for vehicles.
-				PVDZE_veh_Init = _tmpbuilt;
-				publicVariable "PVDZE_veh_Init";
-
-				_tmpbuilt setVehicleLock "UNLOCKED";
+				
 				DZE_DEPLOYING_SUCCESSFUL = true;
 			} else {
 				deleteVehicle _tmpbuilt;
